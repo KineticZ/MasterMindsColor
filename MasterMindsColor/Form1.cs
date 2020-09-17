@@ -14,6 +14,7 @@ namespace MasterMindsColor
     public partial class Form1 : Form
     {
         private Random random;
+        private List<Color> ListOfColors;
         private Color[] colors;
         private Dictionary<Button, Panel> keyValuePairs;
         private Panel[] playerPanels;
@@ -21,7 +22,12 @@ namespace MasterMindsColor
         public Form1()
         {
             InitializeComponent();
-            colors = new Color[] { Color.Red, Color.Green, Color.Blue };
+            ListOfColors = new List<Color>();
+            ListOfColors.Add(Color.Red);
+            ListOfColors.Add(Color.Green);
+            ListOfColors.Add(Color.Blue);
+
+            colors = new Color[] { ListOfColors[0], ListOfColors[1], ListOfColors[2]};
 
             random = new Random();
 
@@ -52,7 +58,7 @@ namespace MasterMindsColor
             timer1.Enabled = false;
             for (int i = 0; i < guessingPanels.Length; i++)
             {
-                colors[i] = Color.FromArgb(random.Next(2) * 255, random.Next(2) * 255, random.Next(2) * 255);
+                colors[i] = ListOfColors[random.Next(ListOfColors.Count - 1)];
                 guessingPanels[i].BackColor = colors[i];
                 guessingPanels[i].Visible = false;
             }            
@@ -63,10 +69,6 @@ namespace MasterMindsColor
             var s = sender as Button;
             colorDialog1.ShowDialog();
             keyValuePairs[s].BackColor = colorDialog1.Color;
-            //var s = sender as Button;
-            //keyValuePairs[s] = keyValuePairs[s] >= colors.Length ? 0 : keyValuePairs[s];
-            //panel1.BackColor = colors[keyValuePairs[s]];
-            //keyValuePairs[s]++;
         }
         
         private bool CheckMatchingColors(Panel panel, Panel panelToCheck)
@@ -80,8 +82,6 @@ namespace MasterMindsColor
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            //Check if the colors match
-            //Dislay the color panels that match
             bool isPanel1Matched = CheckMatchingColors(panel1, panel4);
             bool isPanel2Matched = CheckMatchingColors(panel2, panel5);
             bool isPanel3Matched = CheckMatchingColors(panel3, panel6);
@@ -115,5 +115,6 @@ namespace MasterMindsColor
                 guessingPanels[i].Visible = false;
             }
         }
+
     }
 }
